@@ -2,84 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MarcaValidator;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $marcas = Marca::all();
+        return response()->json([$marcas], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(MarcaValidator $request)
     {
-        //
+
+        $request->validated();
+        $marca = Marca::create($request->all());
+        return response()->json([$marca], 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        $marca = Marca::find($id);
+        if($marca == null){
+            return response()->json(
+                ['erro' => 'Não encontrado']
+            ,404);
+        }
+        else{
+            return response()->json([$marca], 201);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Marca $marca)
+    public function update(Request $request, $id)
     {
-        //
+        $marca = Marca::find($id);
+        if($marca == null){
+            return response()->json(
+                ['erro' => 'Não encontrado']
+            ,404);
+        }
+        else{
+            $marca->update($request->all());
+            return response()->json([$marca], 200);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Marca $marca)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Marca $marca)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Marca  $marca
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Marca $marca)
-    {
-        //
+        $marca = Marca::find($id);
+        if($marca == null){
+            return response()->json(
+                ['erro' => 'Não encontrado']
+            ,404);
+        }
+        else{
+            $marca->delete();
+            return response()->json(['msg' => 'Removido!'],200);
+        }
     }
 }
