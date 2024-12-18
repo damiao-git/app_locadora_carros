@@ -23,12 +23,20 @@ class MarcaValidator extends FormRequest
      */
     public function rules()
     {
-        return [
-            'nome' => 'required|unique:marcas,nome',
-            'imagem' => 'required'
-        ];
+        if ($this->method() == "PATCH") {
+            return [
+                'nome' => '|unique:marcas,nome,' . $this->route("marca")
+            ];
+        } else {
+
+            return [
+                'nome' => 'required|unique:marcas,nome,' . $this->route("marca"),
+                'imagem' => 'required'
+            ];
+        }
     }
-    public function messages(){
+    public function messages()
+    {
         return [
             'required' => 'O campo :attribute é obrigatório',
             'unique' => 'Esse nome já está atribuido a um outro registro'

@@ -36,7 +36,7 @@ class MarcaController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(MarcaValidator $request, $id)
     {
         $marca = Marca::find($id);
         if($marca == null){
@@ -45,6 +45,7 @@ class MarcaController extends Controller
             ,404);
         }
         else{
+            $request->validated();
             $marca->update($request->all());
             return response()->json([$marca], 200);
         }
