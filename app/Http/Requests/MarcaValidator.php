@@ -31,7 +31,7 @@ class MarcaValidator extends FormRequest
 
             return [
                 'nome' => 'required|unique:marcas,nome,' . $this->route("marca"),
-                'imagem' => 'required'
+                'imagem' => 'required|file|mimes:png'
             ];
         }
     }
@@ -39,7 +39,8 @@ class MarcaValidator extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
-            'unique' => 'Esse nome já está atribuido a um outro registro'
+            'unique' => 'Esse nome já está atribuido a um outro registro',
+            'imagem.mimes' => 'O arquivo precisa ser uma imagem do tipo PNG'
         ];
     }
 }
