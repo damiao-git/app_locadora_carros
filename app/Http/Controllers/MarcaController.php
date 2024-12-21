@@ -26,7 +26,7 @@ class MarcaController extends Controller
             'nome' => $request->nome,
             'imagem' => $imagem_urn
         ]);
-        return response()->json([$marca], 201);
+        return response()->json($marca, 201);
     }
 
     public function show($id)
@@ -38,7 +38,7 @@ class MarcaController extends Controller
                 404
             );
         } else {
-            return response()->json([$marca], 201);
+            return response()->json($marca, 201);
         }
     }
 
@@ -67,7 +67,7 @@ class MarcaController extends Controller
                     'imagem' => $imagem_urn
                 ]
             );
-            return response()->json([$marca], 200);
+            return response()->json($marca, 200);
         }
     }
 
